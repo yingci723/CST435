@@ -17,7 +17,7 @@ Infrastructure Setup
 - Boot Disk: Select Debian GNU/Linux 12 (bookworm) with 20 GB storage.
 - Firewall: Default settings are sufficient.
 
-3. Deployment 
+2. Deployment 
 - Click Create to provision the resource.
 - Once the Status indicator turns green, click SSH to establish a secure shell 
 connection. 
