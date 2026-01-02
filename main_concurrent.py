@@ -1,15 +1,15 @@
 import os
 import time
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 from worker import process_image
 
 DATASET_SIZES = [100, 200, 300, 400]
 
 def get_images(folder):
-    return [os.path.join(folder, f) for f in os.listdir(folder) if f.lower().endswith(".jpg")]
+    return [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(".jpg")]
 
 if __name__ == "__main__":
-
+    
     for size in DATASET_SIZES:
         dataset_folder = f"dataset_{size}"
         output_folder = f"output_{size}"
@@ -21,12 +21,11 @@ if __name__ == "__main__":
         print(f"\nFor running {size} dataset ({len(images)} images)")
 
         for p in [1, 2, 4]:
-            print(f"Starting processing with {p} worker(s)...")
+            print(f"\nStarting processing with {p} thread(s)...")
             start = time.time()
 
-            with ProcessPoolExecutor(max_workers=p) as executor:
-                # Pass the tuple tasks, because process_image expects a single tuple argument
+            with ThreadPoolExecutor(max_workers=p) as executor:
                 list(executor.map(process_image, tasks))
 
             end = time.time()
-            print(f"concurrent.futures | workers={p} | time={end-start:.2f}s")
+            print(f"concurrent.futures | threads={p} | time={end-start:.2f}s")
